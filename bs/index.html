@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cardence Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f7f9fb;
+      margin: 0;
+      color: #1c2331;
+      overflow-x: hidden;
+    }
+    .navbar {
+      background: linear-gradient(90deg,rgba(72,108,255,0.85) 0%,rgba(54,168,140,0.85) 100%);
+      backdrop-filter: blur(15px);
+      border-radius: 18px;
+      box-shadow: 0 8px 26px #4e76ed18, 0 3px 12px #50c8780a;
+      margin: 18px 30px;
+      padding: 0 35px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      animation: navFadeIn 0.9s cubic-bezier(.75,.05,.55,1.1);
+    }
+    @keyframes navFadeIn {
+      from { opacity:0; transform: translateY(-40px);}
+      to { opacity:1; transform: none;}
+    }
+    .logo .brand-gradient {
+      font-weight:700;
+      font-size:1.18em;
+      background: linear-gradient(90deg, #4e76ed 0%, #50c878 100%);
+      color: #fff;
+      border-radius: 18px;
+      padding: 8px 18px;
+      box-shadow: 0 1px 12px #4e76ed22;
+      display:inline-flex; 
+      align-items:center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .brand-gradient:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px #4e76ed25;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.10em;
+      display: flex;
+      align-items: center;
+      padding: 10px 22px;
+      border-radius: 24px;
+      transition: background 0.25s, color 0.18s, box-shadow 0.23s, transform 0.18s;
+    }
+    .nav-links a:hover, .nav-links a:focus {
+      background: linear-gradient(90deg,#f7c668 0%, #50c878 80%);
+      color: #232d69;
+      box-shadow: 0 2px 15px #f7c66834, 0 2px 14px #50c87820;
+      transform: translateY(-1.5px) scale(1.06);
+    }
+    .nav-links a:active {
+      background: linear-gradient(90deg,#4e76ed 0%, #50c878 100%);
+      color: #fff;
+    }
+    .nav-icon {
+      font-size: 1.28em;
+      margin-right: 12px;
+      vertical-align: middle;
+      opacity: 0.78;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 40px auto 0 auto;
+      padding: 0 18px 32px 18px;
+    }
+    .dashboard-title {
+      font-size: 2.3em;
+      margin-bottom: 18px;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      animation: fadeInUp 1.2s cubic-bezier(.47,.39,.47,1.21);
+    }
+    @keyframes fadeInUp {
+      from { opacity:0; transform: translateY(40px);}
+      to { opacity:1; transform: none;}
+    }
+    
+    .cards-section {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 45px;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+    .credit-card {
+      background: linear-gradient(120deg, #5f6fff 38%, #60e0cf 100%);
+      border-radius: 22px;
+      box-shadow: 0 8px 36px #6674fd2a, 0 4px 8px #97e1d346;
+      width: 320px;
+      height: 200px;
+      flex: 1;
+      max-width: 350px;
+      position: relative;
+      padding: 28px 26px 20px 28px;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      overflow: hidden;
+      transform: translateY(30px);
+      opacity: 0;
+      animation: cardEntrance 1.2s forwards;
+      margin-bottom: 18px;
+    }
+    .credit-card.show {
+      opacity: 1;
+      transform: none;
+    }
+    .credit-card:nth-child(1) { animation-delay: .2s;}
+    .credit-card:nth-child(2) { animation-delay: .45s;}
+    .credit-card:nth-child(3) { animation-delay: .7s;}
+    @keyframes cardEntrance {
+      to { transform: none; opacity: 1;}
+    }
+    .credit-card:hover {
+      box-shadow: 0 20px 50px #6674fd39, 0 1.5px 28px #60e0cf34;
+      transition: box-shadow .3s, transform .4s;
+      transform: translateY(-7px) scale(1.03);
+    }
+    .credit-card::before {
+      content: "";
+      position: absolute;
+      left: -60px; top: 0; height: 100%; width: 80px;
+      background: linear-gradient(120deg, rgba(255,255,255,0.23) 0%, rgba(255,255,255,0.04) 100%);
+      transform: skewX(-22deg);
+      animation: shine 2.6s infinite linear;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes shine {
+      0% { left: -80px;}
+      100% { left: 105%;}
+    }
+    .card-top {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 20px; 
+      position: relative; 
+      z-index:2;
+    }
+    .card-chip {
+      width:40px; 
+      height:28px; 
+      border-radius:6px;
+      background: linear-gradient(130deg, #f7e7be 70%, #cfcfcf 100%);
+      box-shadow: 0 2px 5px #bea96388;
+    }
+    .card-logo-container {
+      width: 55px; 
+      height: 35px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.95);
+      border-radius: 6px;
+      padding: 4px;
+    }
+    .card-logo-img {
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain;
+      filter: none;
+    }
+    .card-no {
+      font-size: 1.25em;
+      letter-spacing: 2.8px;
+      margin-bottom: 8px;
+      font-family: 'Consolas', monospace;
+      text-shadow: 0 3px 10px #0012361a;
+      position: relative; 
+      z-index:2;
+    }
+    .card-holder-row {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 8px; 
+      font-size: 0.9em; 
+      z-index:2;
+    }
+    .card-label { 
+      font-size: .8em; 
+      opacity:.76; 
+      letter-spacing:.6px;
+    }
+    .card-balance {
+      font-size:1.05em; 
+      color: #e6faf4; 
+      font-weight:600; 
+      margin-top:4px; 
+      z-index:2;
+      letter-spacing: .7px;
+    }
+    .spending-bar {
+      width: 99%; 
+      height:10px; 
+      background:#c1d6f7bb;
+      border-radius: 8px; 
+      margin-bottom:8px; 
+      position:relative; 
+      overflow:hidden;
+      z-index:2;
+      margin-top: 6px;
+    }
+    .spending-progress {
+      height:100%;
+      border-radius: 8px 0 0 8px;
+      background: linear-gradient(90deg, #fffefc 20%, #f6ecc1 80%);
+      box-shadow: 0 3px 8px #e4f2ef1b;
+      transition: width .9s cubic-bezier(.71,.18,.31,.89);
+    }
+
+    .credit-card.mastercard { 
+      background: linear-gradient(112deg, #fcab92 48%, #fcb5e8 110%); 
+      color: #fff;
+    }
+    .credit-card.rupay { 
+      background: linear-gradient(96deg, #ffe765 55%, #ffb7ae 110%);
+      color: #2d4a0f;
+    }
+    .credit-card.amex { 
+      background: linear-gradient(120deg, #50aaff 50%, #ffd34d 110%); 
+      color: #1c425b;
+    }
+    
+    /* Floating Plus Button */
+    .plus-btn {
+      position: fixed;
+      bottom: 44px;
+      right: 44px;
+      z-index: 998;
+      background: linear-gradient(90deg,#4e76ed 0%, #50c878 100%);
+      border:none;
+      border-radius: 50%;
+      width: 72px;
+      height: 72px;
+      box-shadow: 0 6px 28px #4e76ed39, 0 2px 10px #50c87817;
+      color: #fff;
+      font-size: 3.1em;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      outline: none;
+      transition: background .19s, transform .15s, box-shadow .23s;
+    }
+    .plus-btn:hover {
+      background: linear-gradient(90deg, #50c878 0%, #4e76ed 100%);
+      transform: scale(1.07) rotate(8deg);
+      box-shadow: 0 12px 40px #4e76ed4b;
+    }
+    
+
+    .modal-bg {
+      display: none;
+      z-index: 1001;
+      position: fixed;
+      left:0; top:0; width:100vw; height:100vh;
+      background:rgba(38,49,105,0.22);
+      backdrop-filter: blur(6px);
+    }
+    .modal-bg.active { display:block; }
+    .modal-popup {
+      position: fixed;
+      left:50%; 
+      top:50%;
+      transform: translate(-50%,-50%);
+      background: rgba(255,255,255,0.94);
+      border-radius: 18px;
+      box-shadow: 0 10px 48px #4e76ed29, 0 4px 14px #50c87814;
+      padding: 38px 36px 26px 36px;
+      min-width: 320px;
+      max-width:95vw;
+      width:380px;
+      animation: modalShow .37s cubic-bezier(.72,-0.1,.37,.9);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes modalShow {
+      from { opacity: 0; transform: translate(-50%,-60%) scale(0.92);}
+      to { opacity: 1; transform: translate(-50%,-50%) scale(1);}
+    }
+    .modal-popup h3 {
+      color: #253868;
+      font-weight: 700;
+      font-size: 1.18em;
+      margin: 0 0 15px 0;
+      letter-spacing: -.2px;
+    }
+    .modal-close-x {
+      position: absolute;
+      top: 10px; right: 14px;
+      font-size: 2.2em;
+      color: #5966b5;
+      opacity:.66;
+      cursor: pointer;
+      font-weight: 600;
+      z-index:20;
+      user-select: none;
+      transition:color .18s;
+    }
+    .modal-close-x:hover { color: #f25a7b; }
+    .modal-form-row {
+      display: flex; gap: 7px; align-items: center; margin-bottom: 12px;
+    }
+    .modal-form-row label { 
+      display:inline-block; 
+      min-width: 85px; 
+      font-weight:500; 
+      color:#29398b;
+    }
+    .modal-form-row input, .modal-form-row select {
+      background: #f6f7fa;
+      border: 1px solid #c1c7d3;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-size: 1.05em;
+      color: #252735;
+      flex: 1;
+      outline:none;
+      transition: border .2s;
+    }
+    .modal-form-row input:focus, .modal-form-row select:focus {
+      border-color: #4e76ed;
+      background: #ebf2fc;
+    }
+    .modal-btn-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+    }
+    .modal-add-btn {
+      background: linear-gradient(90deg, #4e76ed 60%, #50c878 100%);
+      color: #fff;
+      border: none;
+      font-size: 1.05em;
+      font-weight: 600;
+      border-radius: 13px;
+      padding: 9px 32px;
+      cursor: pointer;
+      box-shadow: 0 1px 7px #4e76ed15;
+      transition: background .21s, color .16s, transform .15s;
+    }
+    .modal-add-btn:hover {
+      background: linear-gradient(90deg,#50c878 60%,#4e76ed 100%);
+      color: #fffde6;
+      transform: translateY(-1.5px) scale(1.04);
+    }
+
+    .limit-input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .rupee-symbol {
+      position: absolute;
+      left: 12px;
+      color: #5a6b9a;
+      font-weight: 600;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .limit-input {
+      padding-left: 28px !important;
+    }
+    
+    .limits-section, .insights-section, .transactions-section {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #cdcfeb32;
+      padding: 26px 32px;
+      margin-bottom: 38px;
+      animation: fadeInUp 1.25s cubic-bezier(.47,.39,.47,1.21);
+    }
+    .unified-limit-label {
+      font-size: 1.13em;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      color: #40569c;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .edit-limit-btn {
+      background: linear-gradient(90deg, #4e76ed 60%, #50c878 100%);
+      color: #fff;
+      border: none;
+      font-size: 0.9em;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 6px 16px;
+      cursor: pointer;
+      box-shadow: 0 1px 5px #4e76ed15;
+      transition: background .21s, color .16s, transform .15s;
+    }
+    .edit-limit-btn:hover {
+      background: linear-gradient(90deg,#50c878 60%,#4e76ed 100%);
+      transform: translateY(-1px) scale(1.02);
+    }
+    .limit-bar-bg {
+      width: 96%;
+      height: 22px;
+      background: #e8e8f8;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+      box-shadow:0 2px 8px #ccc9f025;
+    }
+    .limit-bar {
+      background: linear-gradient(90deg, #f9a154 60%, #ee695f 100%);
+      height: 100%;
+      border-radius: 12px 0 0 12px;
+      transition: width .8s cubic-bezier(.71,.18,.31,.89);
+    }
+    .limit-stats {
+      display: flex;
+      justify-content: space-between;
+      color: #202c76;
+      font-weight: 600;
+    }
+    .transactions-section h3,
+    .insights-section h3 {
+      color: #2e3980;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 13px;
+    }
+    .transactions-section table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      font-size: 1em;
+    }
+    .transactions-section th {
+      color: #789afd;
+      font-weight: 600;
+    }
+    .transactions-section td {
+      background: #f7fafd;
+      border-radius: 7px;
+      padding: 9px 8px 9px 13px;
+      box-shadow: 0 2px 6px #b2beeb16;
+    }
+    .insights-list {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .insight-card {
+      flex: 1;
+      background: linear-gradient(100deg, #ecf3fd 65%, #eaf7ea 100%);
+      border-radius: 14px;
+      min-width: 200px;
+      padding: 20px 18px;
+      box-shadow: 0 1px 5px #abd4e920;
+      color: #235e5a;
+      font-size: 1em;
+      font-weight: 500;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    .insight-title {
+      color: #3065cd;
+      font-weight: 700;
+      font-size: 1.08em;
+      margin-bottom: 7px;
+      letter-spacing: .2px;
+    }
+    
+
+    @media (max-width: 1100px) {
+      .cards-section { 
+        flex-direction: column; 
+        gap: 22px; 
+        align-items: center;
+      }
+      .credit-card {
+        width: 320px;
+        max-width: 90vw;
+      }
+      .container { 
+        padding-left:2px; 
+        padding-right:2px;
+      }
+    }
+    @media (max-width: 700px) {
+      .navbar { 
+        flex-direction: column; 
+        height:auto; 
+        gap:12px; 
+        padding:12px 5px; 
+        margin:8px;
+      }
+      .nav-links { 
+        gap: 12px; 
+      }
+      .nav-links a { 
+        padding:7px 11px; 
+        font-size:1em;
+      }
+    }
+    @media (max-width: 580px) {
+      .modal-popup { padding: 22px 4vw; min-width:0; }
+      .plus-btn { right:18px; bottom:18px; width:62px;height:62px;font-size:2.4em;}
+      .unified-limit-label { flex-direction: column; align-items: flex-start; gap: 8px;}
+    }
+    @media (max-width: 540px) {
+      .dashboard-title { 
+        font-size: 1.6em; 
+      }
+      .limits-section, .insights-section, .transactions-section { 
+        padding: 16px 12px; 
+      }
+      .credit-card { 
+        width: 280px; 
+        max-width:95vw; 
+        padding:20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html" class="brand-gradient">
+        <svg width="24" height="24" style="vertical-align:middle;margin-right:6px" fill="none"><circle cx="12" cy="12" r="11" fill="#4e76ed"/><ellipse cx="18" cy="13" rx="8" ry="7" fill="#50c878"/><circle cx="21" cy="7" r="3" fill="#ffb951"/></svg>
+        Cardence
+      </a>
+    </div>
+    <div class="nav-links">
+<div class="nav-links">
+  <a href="settings.html"><span class="nav-icon">⚙</span> Settings</a>
+  <a href="profile.html"><span class="nav-icon">👤</span> Profile</a>
+  <a href="insights.html"><span class="nav-icon">📈</span> Insights</a>
+  <a href="#"><span class="nav-icon">💬</span> Talk to CardenceAI</a>
+  <a href="#" onclick="logout()"><span class="nav-icon">🚪</span> Logout</a>
+</div>
+  </nav>
+  
+  <div class="container">
+    <div class="dashboard-title">Your Dashboard</div>
+    
+
+    <div class="cards-section" id="cardsSection">
+      <div class="credit-card show">
+        <div class="card-top">
+          <div class="card-chip"></div>
+          <div class="card-logo-container">
+            <img class="card-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa Logo"/>
+          </div>
+        </div>
+        <div class="card-no">4256&nbsp;••••&nbsp;••••&nbsp;1864</div>
+        <div class="card-holder-row">
+          <div>
+            <span class="card-label">CARD HOLDER</span><br>
+            AMIT KUMAR
+          </div>
+          <div>
+            <span class="card-label">EXPIRES</span><br>
+            09/29
+          </div>
+        </div>
+        <div class="card-balance">
+          ₹25,600 &nbsp; <span style="opacity:.7; font-size:.9em;">/ ₹50,000</span>
+        </div>
+        <div class="spending-bar">
+          <div class="spending-progress" style="width:60%"></div>
+        </div>
+      </div>
+      
+      <div class="credit-card mastercard show">
+        <div class="card-top">
+          <div class="card-chip"></div>
+          <div class="card-logo-container">
+            <img class="card-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard Logo"/>
+          </div>
+        </div>
+        <div class="card-no">5171&nbsp;••••&nbsp;••••&nbsp;9098</div>
+        <div class="card-holder-row">
+          <div>
+            <span class="card-label">CARD HOLDER</span><br>
+            PRIYA SEN
+          </div>
+          <div>
+            <span class="card-label">EXPIRES</span><br>
+            07/30
+          </div>
+        </div>
+        <div class="card-balance">
+          ₹14,300 &nbsp; <span style="opacity:.7; font-size:.9em;">/ ₹40,000</span>
+        </div>
+        <div class="spending-bar">
+          <div class="spending-progress" style="
+            background:linear-gradient(90deg, #fff0ee 30%, #ffd0fa 91%);
+            width:38%;"></div>
+        </div>
+      </div>
+      
+      <div class="credit-card rupay show">
+        <div class="card-top">
+          <div class="card-chip"></div>
+          <div class="card-logo-container">
+            <img class="card-logo-img" src="https://orissadiary.com/wp-content/uploads/2018/01/RuPay-Logo_High-Res.png" alt="RuPay Logo"/>
+          </div>
+        </div>
+        <div class="card-no">6013&nbsp;••••&nbsp;••••&nbsp;7511</div>
+        <div class="card-holder-row">
+          <div>
+            <span class="card-label">CARD HOLDER</span><br>
+            S. RAO
+          </div>
+          <div>
+            <span class="card-label">EXPIRES</span><br>
+            11/28
+          </div>
+        </div>
+        <div class="card-balance">
+          ₹8,750 &nbsp; <span style="opacity:.7; font-size:.9em;">/ ₹20,000</span>
+        </div>
+        <div class="spending-bar">
+          <div class="spending-progress" style="
+            background:linear-gradient(90deg, #fffdd7 30%, #ffe6e1 100%);
+            width:18%;"></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="limits-section">
+      <div class="unified-limit-label">
+        <span>Unified Spending Limit</span>
+        <button class="edit-limit-btn" id="editLimitBtn">Edit Limit</button>
+      </div>
+      <div class="limit-bar-bg">
+        <div class="limit-bar" style="width:73%" id="limitBar"></div>
+      </div>
+      <div class="limit-stats" id="limitStats">
+        <span>Used: ₹36,550</span>
+        <span id="totalLimitDisplay">Limit: ₹50,000</span>
+      </div>
+    </div>
+    
+
+    <div class="transactions-section">
+      <h3>Recent Transactions</h3>
+      <table>
+        <tr><th>Date</th><th>Description</th><th>Card</th><th>Amount</th></tr>
+        <tr>
+          <td>03-Oct</td><td>Amazon Store</td><td>Visa</td><td>-₹1,200</td>
+        </tr>
+        <tr>
+          <td>03-Oct</td><td>Cafe Latte</td><td>RuPay</td><td>-₹220</td>
+        </tr>
+        <tr>
+          <td>02-Oct</td><td>Zomato Order</td><td>MasterCard</td><td>-₹470</td>
+        </tr>
+        <tr>
+          <td>02-Oct</td><td>PayTM Add Money</td><td>Visa</td><td>-₹2,000</td>
+        </tr>
+      </table>
+    </div>
+    
+
+    <div class="insights-section">
+      <h3>Financial Insights</h3>
+      <div class="insights-list">
+        <div class="insight-card">
+          <div class="insight-title">Dining Spend ↑</div>
+          You spent 22% more on dining this month. Try CardenceAI tips to save more next month!
+        </div>
+        <div class="insight-card">
+          <div class="insight-title">Limit Alert!</div>
+          You've used 73% of your unified limit. Consider reviewing upcoming expenses.
+        </div>
+        <div class="insight-card">
+          <div class="insight-title">Rewards Update</div>
+          MasterCard Gold is eligible for new cashback offers. Redeem now!
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <button class="plus-btn" id="showCardModal" title="Add Credit Card">+</button>
+
+
+  <div class="modal-bg" id="modalBg">
+    <div class="modal-popup" role="dialog" aria-modal="true">
+      <span class="modal-close-x" id="closeModal">&times;</span>
+      <h3>Add a Credit Card</h3>
+      <form id="modalAddCardForm" autocomplete="off">
+        <div class="modal-form-row">
+          <label for="modalCardType">Type</label>
+          <select id="modalCardType" required>
+            <option value="visa">Visa</option>
+            <option value="mastercard">MasterCard</option>
+            <option value="rupay">RuPay</option>
+            <option value="amex">Amex</option>
+          </select>
+        </div>
+        <div class="modal-form-row">
+          <label for="modalCardNo">Card No.</label>
+          <input id="modalCardNo" type="text" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required>
+        </div>
+        <div class="modal-form-row">
+          <label for="modalCardExpiry">Expiry</label>
+          <input id="modalCardExpiry" type="text" maxlength="5" placeholder="MM/YY" required style="max-width: 84px;">
+        </div>
+        <div class="modal-form-row">
+          <label for="modalCardCVV">CVV</label>
+          <input id="modalCardCVV" type="password" maxlength="4" placeholder="CVV" required style="max-width: 64px;">
+        </div>
+        <div class="modal-form-row">
+          <label for="modalCardHolder">Name</label>
+          <input id="modalCardHolder" type="text" maxlength="26" placeholder="Card Holder Name" required>
+        </div>
+        <div class="modal-form-row">
+          <label for="modalCardLimit">Card Limit</label>
+          <div class="limit-input-container">
+            <span class="rupee-symbol">₹</span>
+            <input id="modalCardLimit" type="number" min="1000" max="1000000" placeholder="50000" class="limit-input" required>
+          </div>
+        </div>
+        <div class="modal-btn-row">
+          <button type="submit" class="modal-add-btn">Add Card</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="limitModalBg">
+    <div class="modal-popup" role="dialog" aria-modal="true">
+      <span class="modal-close-x" id="closeLimitModal">&times;</span>
+      <h3>Set Unified Spending Limit</h3>
+      <form id="limitForm" autocomplete="off">
+        <div class="modal-form-row">
+          <label for="newUnifiedLimit">New Limit</label>
+          <div class="limit-input-container">
+            <span class="rupee-symbol">₹</span>
+            <input id="newUnifiedLimit" type="number" min="10000" max="10000000" placeholder="100000" class="limit-input" required>
+          </div>
+        </div>
+        <div style="font-size: 0.9em; color: #5a6b9a; margin-bottom: 15px;">
+          Current limit: <span id="currentLimitText">₹50,000</span>
+        </div>
+        <div class="modal-btn-row">
+          <button type="submit" class="modal-add-btn">Update Limit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+ 
+    let unifiedLimit = 50000; 
+    let totalSpent = 36550; 
+
+
+    const cardTypes = {
+      visa: {
+        class: "visa",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
+      },
+      mastercard: {
+        class: "mastercard",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+      },
+      rupay: {
+        class: "rupay",
+        logo: "https://orissadiary.com/wp-content/uploads/2018/01/RuPay-Logo_High-Res.png"
+      },
+      amex: {
+        class: "amex",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo_%282018%29.svg"
+      }
+    };
+
+
+    function maskCardNumber(num) {
+      num = num.replace(/\s+/g, "");
+      if(num.length < 8) return num;
+      return num.slice(0,4) + '&nbsp;••••&nbsp;••••&nbsp;' + num.slice(-4);
+    }
+
+
+    function formatNumber(num) {
+      return new Intl.NumberFormat('en-IN').format(num);
+    }
+
+
+    function updateUnifiedLimit() {
+      const percentage = Math.min((totalSpent / unifiedLimit) * 100, 100);
+      document.getElementById('limitBar').style.width = percentage + '%';
+      document.getElementById('totalLimitDisplay').textContent = `Limit: ₹${formatNumber(unifiedLimit)}`;
+      document.getElementById('currentLimitText').textContent = `₹${formatNumber(unifiedLimit)}`;
+    }
+
+
+    const showCardModal = document.getElementById('showCardModal');
+    const modalBg = document.getElementById('modalBg');
+    const closeModalBtn = document.getElementById('closeModal');
+    
+
+    const editLimitBtn = document.getElementById('editLimitBtn');
+    const limitModalBg = document.getElementById('limitModalBg');
+    const closeLimitModalBtn = document.getElementById('closeLimitModal');
+
+    showCardModal.addEventListener('click', function(){
+      modalBg.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    editLimitBtn.addEventListener('click', function(){
+      limitModalBg.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('newUnifiedLimit').value = unifiedLimit;
+    });
+    
+
+    function closeModal(){
+      modalBg.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function closeLimitModal(){
+      limitModalBg.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    closeModalBtn.addEventListener('click', closeModal);
+    closeLimitModalBtn.addEventListener('click', closeLimitModal);
+    
+    modalBg.addEventListener('click', function(e) {
+      if(e.target === modalBg) closeModal();
+    });
+    limitModalBg.addEventListener('click', function(e) {
+      if(e.target === limitModalBg) closeLimitModal();
+    });
+
+
+    document.getElementById("modalCardNo").addEventListener("input", function(e) {
+      let value = e.target.value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+      let formattedValue = value.match(/.{1,4}/g)?.join(" ") || "";
+      e.target.value = formattedValue;
+    });
+
+ 
+    document.getElementById("modalCardExpiry").addEventListener("input", function(e) {
+      let value = e.target.value.replace(/\D/g, "");
+      if(value.length >= 2) {
+        value = value.substring(0,2) + "/" + value.substring(2,4);
+      }
+      e.target.value = value;
+    });
+
+
+    document.getElementById("limitForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const newLimit = parseInt(document.getElementById("newUnifiedLimit").value);
+      
+      if(newLimit < 10000 || newLimit > 10000000 || isNaN(newLimit)) {
+        alert("Please enter a valid limit between ₹10,000 and ₹1,00,00,000.");
+        return;
+      }
+      
+      unifiedLimit = newLimit;
+      updateUnifiedLimit();
+      closeLimitModal();
+      document.getElementById("limitForm").reset();
+    });
+
+
+    document.getElementById("modalAddCardForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+
+      const cardType = document.getElementById("modalCardType").value;
+      const cardNo = document.getElementById("modalCardNo").value.replace(/\s+/g, "");
+      const cardExpiry = document.getElementById("modalCardExpiry").value;
+      const cardCVV = document.getElementById("modalCardCVV").value;
+      const cardHolder = document.getElementById("modalCardHolder").value.trim().toUpperCase().slice(0, 26);
+      const cardLimit = parseInt(document.getElementById("modalCardLimit").value);
+
+      if(cardNo.length < 12 || cardNo.length > 19 || !/^\d+$/.test(cardNo)) {
+        alert("Please enter a valid card number (12-19 digits).");
+        return;
+      }
+      if(!/^\d{2}\/\d{2}$/.test(cardExpiry)) {
+        alert("Expiry must be in MM/YY format.");
+        return;
+      }
+      if(cardCVV.length < 3 || cardCVV.length > 4 || !/^\d+$/.test(cardCVV)) {
+        alert("Please enter a valid CVV (3-4 digits).");
+        return;
+      }
+      if(cardHolder.length < 2) {
+        alert("Please enter the cardholder's name.");
+        return;
+      }
+      if(cardLimit < 1000 || cardLimit > 1000000 || isNaN(cardLimit)) {
+        alert("Please enter a valid card limit between ₹1,000 and ₹10,00,000.");
+        return;
+      }
+
+      const cardsSection = document.getElementById("cardsSection");
+      const cardInfo = cardTypes[cardType];
+      
+   
+      const div = document.createElement("div");
+      div.className = `credit-card show ${cardInfo.class}`;
+      div.innerHTML = `
+        <div class="card-top">
+          <div class="card-chip"></div>
+          <div class="card-logo-container">
+            <img class="card-logo-img" src="${cardInfo.logo}" alt="${cardType} Logo"/>
+          </div>
+        </div>
+        <div class="card-no">${maskCardNumber(cardNo)}</div>
+        <div class="card-holder-row">
+          <div>
+            <span class="card-label">CARD HOLDER</span><br>
+            ${cardHolder}
+          </div>
+          <div>
+            <span class="card-label">EXPIRES</span><br>
+            ${cardExpiry}
+          </div>
+        </div>
+        <div class="card-balance" style="opacity:.8; font-size:.98em;">₹0 &nbsp; <span style="opacity:.7; font-size:.9em;">/ ₹${formatNumber(cardLimit)}</span></div>
+        <div class="spending-bar"><div class="spending-progress" style="width:0%"></div></div>
+      `;
+      
+
+      div.style.transform = "translateY(30px)";
+      div.style.opacity = "0";
+      cardsSection.appendChild(div);
+      
+
+      setTimeout(() => {
+        div.style.transform = "none";
+        div.style.opacity = "1";
+      }, 100);
+      
+
+      closeModal();
+      document.getElementById("modalAddCardForm").reset();
+    });
+
+
+    updateUnifiedLimit();
+  </script>
+    <script>
+
+    function checkAuthentication() {
+      const user = localStorage.getItem('cardenceUser');
+      if (!user) {
+
+        window.location.href = 'login.html';
+        return false;
+      }
+      
+      const userData = JSON.parse(user);
+      console.log('Logged in user:', userData.email);
+      return true;
+    }
+    
+
+    checkAuthentication();
+    
+
+    function logout() {
+  localStorage.removeItem('cardenceUser');
+  window.location.href = 'login.html';
+}
+
+  </script>
+</body>
+</html>

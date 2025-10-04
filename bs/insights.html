@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cardence Insights</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f7f9fb;
+      margin: 0;
+      color: #1c2331;
+    }
+    .navbar {
+      background: linear-gradient(90deg,rgba(78,118,237,0.88) 0%,rgba(80,200,120,0.86) 100%);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      box-shadow: 0 8px 26px #4e76ed18, 0 3px 12px #50c8780a;
+      margin: 14px 30px 38px 30px;
+      padding: 0 34px;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      animation: navFadeIn 0.9s cubic-bezier(.75,.05,.55,1.1);
+    }
+    @keyframes navFadeIn {
+      from { opacity:0; transform: translateY(-40px);}
+      to { opacity:1; transform: none;}
+    }
+    .logo { font-size: 1.23em; font-weight: 700; letter-spacing: .5px;}
+    .cardence-logo {
+      background: linear-gradient(90deg,#4e76ed,#50c878);
+      padding: 8px 18px;
+      border-radius: 20px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.06em;
+      box-shadow: 0 2px 12px #4e76ed16;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .cardence-logo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px #4e76ed25;
+    }
+    .nav-links {
+      display: flex; gap: 34px; align-items: center;
+    }
+    .nav-links a {
+      color: #fff;
+      background: rgba(255,255,255,0.09);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.12em;
+      display: flex;
+      align-items: center;
+      padding: 11px 24px;
+      border-radius: 20px;
+      box-shadow: 0 1px 7px #50c87813;
+      transition: background 0.33s, color 0.22s, box-shadow 0.33s, transform 0.17s;
+      position: relative;
+    }
+    .nav-links a:hover,.nav-links a:focus {
+      background: linear-gradient(90deg,#f7c668 0%, #50c878 80%);
+      color: #28396c;
+      box-shadow: 0 2px 15px #f7c66834, 0 4px 15px #50c87822;
+      transform: translateY(-2px) scale(1.08);
+    }
+    .nav-links a:active {
+      background: linear-gradient(90deg,#4e76ed 0%, #50c878 100%);
+      color: #fff;
+    }
+    .nav-icon {
+      font-size: 1.22em;
+      margin-right: 13px;
+      vertical-align: middle;
+      opacity: .82;
+      transition: opacity .2s;
+    }
+    @media (max-width: 700px) {
+      .navbar { flex-direction: column; height:auto; gap:16px; padding:13px 5px; margin:5px;}
+      .logo { font-size: 1em;}
+      .nav-links { gap: 13px;}
+      .nav-links a { font-size:1em; padding:9px 13px;}
+    }
+    .insights-container {
+      max-width: 1000px;
+      margin: 40px auto 0 auto;
+      padding: 0 18px 32px 18px;
+      animation: settingsIn .9s cubic-bezier(.49,.73,.54,1) .18s both;
+    }
+    @keyframes settingsIn {
+      from { opacity:0; transform: translateY(45px);}
+      to { opacity:1; transform: none;}
+    }
+    .insights-title {
+      color: #253868;
+      font-weight: 700;
+      font-size: 2em;
+      margin-bottom: 18px;
+      letter-spacing: -.5px;
+      text-align: left;
+    }
+    .language-row {
+      margin-bottom: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .language-row label { font-weight: 500; color: #2651be; }
+    .language-row select {
+      padding:6px 16px; border-radius: 7px; font-size:1em;
+      border:1px solid #d5e4f5; background:#f5f7fb; color: #40569c; outline:none;
+    }
+    .insights-list {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      margin-bottom: 40px;
+    }
+    .insight-card {
+      flex: 1 1 250px;
+      background: linear-gradient(105deg, #e4f3fd 60%, #eaf7ea 100%);
+      border-radius: 18px;
+      padding: 28px 20px;
+      box-shadow: 0 5px 21px #4e76ed14, 0 3px 8px #50c8781a;
+      color: #174650;
+      font-size: 1.05em;
+      font-weight: 500;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.26s, transform 0.20s;
+    }
+    .insight-card:hover {
+      box-shadow: 0 8px 32px #4e76ed22;
+      transform: translateY(-5px) scale(1.02);
+    }
+    .insight-title {
+      color: #3065cd;
+      font-weight: 700;
+      font-size: 1.18em;
+      margin-bottom: 8px;
+      letter-spacing: .3px;
+    }
+    .transaction-section {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 16px #4e76ed12, 0 2px 6px #50c87815;
+      padding: 28px 24px;
+      margin-top: 30px;
+    }
+    .transaction-section h3 {
+      color: #2e3980;
+      font-weight: 700;
+      font-size: 1.4em;
+      margin-top: 0;
+      margin-bottom: 18px;
+      letter-spacing: -.3px;
+    }
+    .transaction-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      font-size: 1em;
+      margin-top: 12px;
+    }
+    .transaction-table th {
+      color: #4e76ed;
+      font-weight: 700;
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 1.05em;
+    }
+    .transaction-table td {
+      background: #f8fafd;
+      border-radius: 8px;
+      padding: 12px;
+      color: #2d4a71;
+      font-weight: 500;
+    }
+    .transaction-table .amount {
+      font-weight: 700;
+      color: #e74c3c;
+    }
+    .transaction-table .amount.positive {
+      color: #27ae60;
+    }
+    .transaction-table .category {
+      color: #8e44ad;
+      font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      .insights-list { flex-direction: column; gap: 18px; }
+      .insights-container { padding-left:2px; padding-right:2px;}
+      .insight-card { padding: 20px 14px;}
+      .insights-title { font-size: 1.4em;}
+      .transaction-section { padding: 18px 12px;}
+      .transaction-table { font-size: 0.9em;}
+      .transaction-table th, .transaction-table td { padding: 8px 6px;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html" class="cardence-logo">
+        <svg width="26" height="23" style="vertical-align:middle;margin-right:4px" fill="none"><ellipse cx="11" cy="11" rx="11" ry="11" fill="#4e76ed"/><ellipse cx="18" cy="13" rx="8" ry="7" fill="#50c878"/><circle cx="21" cy="7" r="3" fill="#ffb951"/></svg>
+        Cardence
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="settings.html"><span class="nav-icon">&#9881;</span><span id="navSettings"></span></a>
+      <a href="profile.html"><span class="nav-icon">&#128100;</span><span id="navProfile"></span></a>
+      <a href="insights.html"><span class="nav-icon">&#128200;</span><span id="navInsights"></span></a>
+      <a href="#"><span class="nav-icon">&#128172;</span><span id="navTalk"></span></a>
+    </div>
+  </nav>
+  <div class="insights-container">
+    <div class="language-row">
+      <label for="language" id="labelLanguage"></label>
+      <select id="language" onchange="setLanguage()">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="bn">বাংলা</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
+    </div>
+    <div class="insights-title" id="insightsTitle"></div>
+    <div class="insights-list">
+      <div class="insight-card">
+        <div class="insight-title" id="insightTitle1"></div>
+        <div id="insightBody1"></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title" id="insightTitle2"></div>
+        <div id="insightBody2"></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title" id="insightTitle3"></div>
+        <div id="insightBody3"></div>
+      </div>
+    </div>
+    
+
+    <div class="transaction-section">
+      <h3 id="transactionTitle"></h3>
+      <table class="transaction-table">
+        <tr>
+          <th id="thDate"></th>
+          <th id="thDescription"></th>
+          <th id="thCategory"></th>
+          <th id="thCard"></th>
+          <th id="thAmount"></th>
+        </tr>
+        <tr>
+          <td>Sep 28</td>
+          <td>Amazon Prime Subscription</td>
+          <td class="category" id="catSubscription"></td>
+          <td>Visa</td>
+          <td class="amount">-₹179</td>
+        </tr>
+        <tr>
+          <td>Sep 26</td>
+          <td>Swiggy Food Order</td>
+          <td class="category" id="catFood"></td>
+          <td>MasterCard</td>
+          <td class="amount">-₹420</td>
+        </tr>
+        <tr>
+          <td>Sep 24</td>
+          <td>Petrol Station</td>
+          <td class="category" id="catFuel"></td>
+          <td>RuPay</td>
+          <td class="amount">-₹2,100</td>
+        </tr>
+        <tr>
+          <td>Sep 22</td>
+          <td>Salary Credit</td>
+          <td class="category" id="catSalary"></td>
+          <td>Visa</td>
+          <td class="amount positive">+₹65,000</td>
+        </tr>
+        <tr>
+          <td>Sep 20</td>
+          <td>Grocery Store</td>
+          <td class="category" id="catGrocery"></td>
+          <td>MasterCard</td>
+          <td class="amount">-₹1,250</td>
+        </tr>
+        <tr>
+          <td>Sep 18</td>
+          <td>Movie Tickets</td>
+          <td class="category" id="catEntertainment"></td>
+          <td>RuPay</td>
+          <td class="amount">-₹600</td>
+        </tr>
+        <tr>
+          <td>Sep 15</td>
+          <td>Medical Checkup</td>
+          <td class="category" id="catMedical"></td>
+          <td>Visa</td>
+          <td class="amount">-₹3,200</td>
+        </tr>
+        <tr>
+          <td>Sep 12</td>
+          <td>Online Course</td>
+          <td class="category" id="catEducation"></td>
+          <td>MasterCard</td>
+          <td class="amount">-₹999</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script>
+    const translations = {
+      en: {
+        navSettings: "Settings",
+        navProfile: "Profile",
+        navInsights: "Insights",
+        navTalk: "Talk to CardenceAI",
+        labelLanguage: "Language",
+        insightsTitle: "Financial Insights",
+        insightTitle1: "Dining Spend ↑",
+        insightBody1: "You spent 22% more on dining this month. Try CardenceAI tips to save more next month!",
+        insightTitle2: "Limit Alert!",
+        insightBody2: "You've used 73% of your unified limit. Consider reviewing upcoming expenses.",
+        insightTitle3: "Rewards Update",
+        insightBody3: "MasterCard Gold is eligible for new cashback offers. Redeem now!",
+        transactionTitle: "Last Month's Transaction History",
+        thDate: "Date",
+        thDescription: "Description",
+        thCategory: "Category",
+        thCard: "Card",
+        thAmount: "Amount",
+        catSubscription: "Subscription",
+        catFood: "Food & Dining",
+        catFuel: "Fuel",
+        catSalary: "Salary",
+        catGrocery: "Grocery",
+        catEntertainment: "Entertainment",
+        catMedical: "Medical",
+        catEducation: "Education"
+      },
+      hi: {
+        navSettings: "सेटिंग्स",
+        navProfile: "प्रोफ़ाइल",
+        navInsights: "अवगतियाँ",
+        navTalk: "कार्डेंसएआई से बात करें",
+        labelLanguage: "भाषा",
+        insightsTitle: "आर्थिक अवगतियाँ",
+        insightTitle1: "खाने पर खर्च ↑",
+        insightBody1: "इस महीने आपने खाने पर २२% अधिक खर्च किया। अगले महीने बचत के लिए CardenceAI के सुझावों का प्रयास करें।",
+        insightTitle2: "सीमा चेतावनी!",
+        insightBody2: "आपने अपनी संयुक्त सीमा का 73% उपयोग कर लिया है। आगामी खर्चों की समीक्षा करें।",
+        insightTitle3: "रिवॉर्ड्स अपडेट",
+        insightBody3: "MasterCard Gold नए कैशबैक ऑफर के लिए पात्र है। अब रिडीम करें!",
+        transactionTitle: "पिछले महीने का लेन-देन इतिहास",
+        thDate: "तारीख",
+        thDescription: "विवरण",
+        thCategory: "श्रेणी",
+        thCard: "कार्ड",
+        thAmount: "राशि",
+        catSubscription: "सब्स्क्रिप्शन",
+        catFood: "भोजन और डाइनिंग",
+        catFuel: "ईंधन",
+        catSalary: "वेतन",
+        catGrocery: "किराना",
+        catEntertainment: "मनोरंजन",
+        catMedical: "चिकित्सा",
+        catEducation: "शिक्षा"
+      },
+      ta: {
+        navSettings: "அமைப்புகள்",
+        navProfile: "சுயவிவரம்",
+        navInsights: "பரிசீலனைகள்",
+        navTalk: "கார்டென்ஸ்AI-யை பேசவும்",
+        labelLanguage: "மொழி",
+        insightsTitle: "நிதி பார்வைகள்",
+        insightTitle1: "உணவு செலவு ↑",
+        insightBody1: "இந்த மாதம் உணவில் நீங்கள் 22% அதிகம் செலவிட்டீர்கள். அடுத்த மாதம் சேமிக்க CardenceAI-ன் குறிப்புகளை முயற்சிக்கவும்!",
+        insightTitle2: "மிதிமேல் எச்சரிக்கை!",
+        insightBody2: "நீங்கள் உங்கள் ஒருங்கிணைந்த வரம்பில் 73% பயன்படுத்தியுள்ளீர்கள். வரவிருக்கும் செலவுகளை மதிப்பாய்வு செய்யவும்.",
+        insightTitle3: "பரிசு புதுப்பிப்பு",
+        insightBody3: "MasterCard Gold புதிய பணவழங்கு சலுகைகளுக்கு தகுதி பெற்றுள்ளது. இப்போது பெறுங்கள்!",
+        transactionTitle: "கடந்த மாத பரிவர்த்தனை வரலாறு",
+        thDate: "தேதி",
+        thDescription: "விவரம்",
+        thCategory: "வகை",
+        thCard: "அட்டை",
+        thAmount: "தொகை",
+        catSubscription: "சந்தா",
+        catFood: "உணவு & உணவு",
+        catFuel: "எரிபொருள்",
+        catSalary: "சம்பளம்",
+        catGrocery: "மளிகை",
+        catEntertainment: "பொழுதுபோக்கு",
+        catMedical: "மருத்துவ",
+        catEducation: "கல்வி"
+      },
+      bn: {
+        navSettings: "সেটিংস",
+        navProfile: "প্রোফাইল",
+        navInsights: "উপস্থিতি",
+        navTalk: "কার্ডেন্সএআই-কে বলুন",
+        labelLanguage: "ভাষা",
+        insightsTitle: "আর্থিক উপস্থিতি",
+        insightTitle1: "রেস্তোরাঁয় খরচ ↑",
+        insightBody1: "এই মাসে আপনি খাবারে ২২% বেশি খরচ করেছেন। পরের মাসে আরও সাশ্রয়ের জন্য CardenceAI'র টিপস ব্যবহার করুন!",
+        insightTitle2: "সীমা সতর্কতা!",
+        insightBody2: "আপনি আপনার যৌথ সীমার ৭৩% ব্যবহার করেছেন। আসন্ন খরচ পর্যালোচনা করুন।",
+        insightTitle3: "রিওয়ার্ড আপডেট",
+        insightBody3: "MasterCard Gold নতুন ক্যাশব্যাক অফারের জন্য উপযুক্ত। এখনই রিডিম করুন!",
+        transactionTitle: "গত মাসের লেনদেনের ইতিহাস",
+        thDate: "তারিখ",
+        thDescription: "বিবরণ",
+        thCategory: "বিভাগ",
+        thCard: "কার্ড",
+        thAmount: "পরিমাণ",
+        catSubscription: "সাবস্ক্রিপশন",
+        catFood: "খাবার ও ডাইনিং",
+        catFuel: "জ্বালানি",
+        catSalary: "বেতন",
+        catGrocery: "মুদিখানা",
+        catEntertainment: "বিনোদন",
+        catMedical: "চিকিৎসা",
+        catEducation: "শিক্ষা"
+      },
+      kn: {
+        navSettings: "ಸಂಯೋಜನೆಗಳು",
+        navProfile: "ಪ್ರೊಫೈಲ್",
+        navInsights: "ಅವಲೋಕನಗಳು",
+        navTalk: "ಕಾರ್ಡೆನ್ಸ್AI ಅನ್ನು ಮಾತನಾಡಿ",
+        labelLanguage: "ಭಾಷೆ",
+        insightsTitle: "ಹಣಕಾಸು ಒಳನೋಟಗಳು",
+        insightTitle1: "ಭೋಜನ ವೆಚ್ಚ ↑",
+        insightBody1: "ಈ ತಿಂಗಳಲ್ಲಿ ನೀವು ಭೋಜನಕ್ಕೆ 22% ಹೆಚ್ಚುವರಿ ವೆಚ್ಚ ಮಾಡಿದ್ದೀರಿ. ಮುಂದಿನ ತಿಂಗಳು ಹೆಚ್ಚು ಉಳಿಸಲು CardenceAI ಸಲಹೆಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ!",
+        insightTitle2: "ಮಿತಿಯ ಎಚ್ಚರಿಕೆ!",
+        insightBody2: "ನೀವು ನಿಮ್ಮ ಸಂಯೋಜಿತ ಮಿತಿಯ 73% ಬಳಸಿದ್ದೀರಿ. ಮುಂದಿನ ಖರ್ಚುಗಳನ್ನು ವಿಮರ್ಶಿಸಿ.",
+        insightTitle3: "ರಿವಾರ್ಡ್ ಅಪ್ಡೇಟ್",
+        insightBody3: "MasterCard Gold ಹೊಸ ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಆಫರ್‌ಗಾಗಿ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ. ಈಗ ರಿಡೀಮ್ ಮಾಡಿ!",
+        transactionTitle: "ಕಳೆದ ತಿಂಗಳ ವ್ಯವಹಾರ ಇತಿಹಾಸ",
+        thDate: "ದಿನಾಂಕ",
+        thDescription: "ವಿವರಣೆ",
+        thCategory: "ವರ್ಗ",
+        thCard: "ಕಾರ್ಡ್",
+        thAmount: "ಮೊತ್ತ",
+        catSubscription: "ಚಂದಾದಾರಿಕೆ",
+        catFood: "ಆಹಾರ ಮತ್ತು ಭೋಜನ",
+        catFuel: "ಇಂಧನ",
+        catSalary: "ಸಂಬಳ",
+        catGrocery: "ಕಿರಾಣಿ",
+        catEntertainment: "ಮನರಂಜನೆ",
+        catMedical: "ವೈದ್ಯಕೀಯ",
+        catEducation: "ಶಿಕ್ಷಣ"
+      }
+    };
+
+    function setLanguage() {
+      const lang = document.getElementById("language").value;
+      const t = translations[lang];
+      document.getElementById("navSettings").textContent = t.navSettings;
+      document.getElementById("navProfile").textContent = t.navProfile;
+      document.getElementById("navInsights").textContent = t.navInsights;
+      document.getElementById("navTalk").textContent = t.navTalk;
+      document.getElementById("labelLanguage").textContent = t.labelLanguage;
+      document.getElementById("insightsTitle").textContent = t.insightsTitle;
+      document.getElementById("insightTitle1").textContent = t.insightTitle1;
+      document.getElementById("insightBody1").textContent = t.insightBody1;
+      document.getElementById("insightTitle2").textContent = t.insightTitle2;
+      document.getElementById("insightBody2").textContent = t.insightBody2;
+      document.getElementById("insightTitle3").textContent = t.insightTitle3;
+      document.getElementById("insightBody3").textContent = t.insightBody3;
+
+      document.getElementById("transactionTitle").textContent = t.transactionTitle;
+      document.getElementById("thDate").textContent = t.thDate;
+      document.getElementById("thDescription").textContent = t.thDescription;
+      document.getElementById("thCategory").textContent = t.thCategory;
+      document.getElementById("thCard").textContent = t.thCard;
+      document.getElementById("thAmount").textContent = t.thAmount;
+      document.getElementById("catSubscription").textContent = t.catSubscription;
+      document.getElementById("catFood").textContent = t.catFood;
+      document.getElementById("catFuel").textContent = t.catFuel;
+      document.getElementById("catSalary").textContent = t.catSalary;
+      document.getElementById("catGrocery").textContent = t.catGrocery;
+      document.getElementById("catEntertainment").textContent = t.catEntertainment;
+      document.getElementById("catMedical").textContent = t.catMedical;
+      document.getElementById("catEducation").textContent = t.catEducation;
+    }
+    setLanguage();
+  </script>
+</body>
+</html>

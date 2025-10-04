@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cardence Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; min-height:100%; }
+    body {
+      min-height:100vh;
+      background: linear-gradient(120deg, #e5eaf7 0%,#f7fcfa 100%);
+      font-family: "Inter", sans-serif;
+      overflow-x:hidden;
+    }
+    .navbar {
+      background: linear-gradient(90deg,rgba(72,108,255,0.85) 0%,rgba(54,168,140,0.85) 100%);
+      backdrop-filter: blur(15px);
+      border-radius: 18px;
+      box-shadow: 0 8px 26px #4e76ed18, 0 3px 12px #50c8780a;
+      margin: 18px 30px 0 30px;
+      padding: 0 35px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      animation: navFadeIn 0.7s cubic-bezier(.75,.05,.55,1.1);
+    }
+    @keyframes navFadeIn {
+      from { opacity:0; transform: translateY(-35px);}
+      to { opacity:1; transform: none;}
+    }
+    .logo .brand-gradient {
+      font-weight:700;
+      font-size:1.13em;
+      background: linear-gradient(90deg, #4e76ed 0%, #50c878 100%);
+      color: #fff;
+      border-radius: 18px;
+      padding: 7px 16px;
+      display:inline-flex; 
+      align-items:center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s;
+    }
+    .brand-gradient:hover {
+      transform: scale(1.05);
+    }
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      padding: 7px 17px;
+      border-radius: 22px;
+      transition: background 0.22s, color 0.15s;
+    }
+    .nav-links a:hover {
+      background: linear-gradient(90deg,#f7c668 0%, #50c878 80%);
+      color: #232d69;
+      box-shadow: 0 1px 14px #f7c66823;
+    }
+    .nav-icon {font-size: 1.18em; margin-right: 10px; opacity:0.7;}
+    .page-content {width:100%;display:flex;justify-content:center;align-items:flex-start;padding:36px 0}
+    .profile-glass {
+      max-width: 390px;
+      width: 97vw;
+      background: rgba(255,255,255,0.85);
+      border-radius: 24px;
+      box-shadow: 0 12px 38px #4e76ed14;
+      padding: 38px 32px 28px 32px;
+      backdrop-filter: blur(15px);
+      display: flex; flex-direction:column; align-items:center;
+      animation: fadeIn .92s cubic-bezier(.66,-0.16,.44,1.09);
+    }
+    @keyframes fadeIn {from{opacity:0;transform:translateY(25px) scale(.96);}to{opacity:1;transform:none;}}
+    .profile-brand {
+      display:flex;gap:8px;align-items:center;margin-bottom:13px;user-select:none;
+    }
+    .profile-heading {
+      font-size:1.14em;font-weight:600;text-align:center;
+      background: linear-gradient(95deg, #4e76ed 4%, #42cc92 70%, #ffe293 95%);
+      color:transparent;-webkit-background-clip: text;background-clip:text;
+      letter-spacing:.04em;font-family:inherit;
+    }
+    .profile-photo-wrap {
+      position:relative;width:99px;height:99px;margin:7px auto 14px auto;display:flex;align-items:center;justify-content:center;
+    }
+    .profile-photo {
+      width:85px;height:85px;border-radius:50%;object-fit:cover;background:#eafaf6;border:3px solid #f0f5fa;
+      box-shadow: 0 2px 16px #4e76ed13;
+      display: block;transition:.15s;
+    }
+    .profile-photo-edit {
+      position:absolute;right:-5px;bottom:-5px;z-index:2;background: linear-gradient(90deg,#4e76ed 10%, #50c878 90%);
+      color: #fff;border-radius:50%;width: 28px;height:28px;display:flex;align-items:center;justify-content:center;
+      font-size:1.1em;cursor:pointer;border:2px solid #fff;box-shadow:0 1.2px 7px #4e76ed0a;
+    }
+    .profile-photo-edit:hover {background: linear-gradient(90deg,#50c878 5%,#4e76ed 95%);}
+    .profile-name-display {font-weight:700;font-size:1.18em;color:#294180;text-align:center;margin-bottom:11px;}
+    .profile-form {width:100%;display:flex;flex-direction:column;gap:17px;}
+    .profile-label {color:#3d61ca;font-weight: 600;font-size:.97em;opacity:0.84;margin-bottom:2.5px;}
+    .profile-field,.profile-field-area {
+      border-radius:10px; border:1.1px solid #dde6f3; background:#fdfdfd;
+      padding:9px 15px;font-size:1.06em;outline:none;color:#23377b;font-weight:500;
+      width:100%;resize:none;transition: border .11s,background .11s;
+    }
+    .profile-field:focus,.profile-field-area:focus {border:1.3px solid #42cc92bb;background:#f4fcfb;}
+    .profile-field-area {min-height:39px;max-height:75px;}
+    .profile-actions {
+      display:flex;gap:11px;margin-top:7px;justify-content:center;
+    }
+    .profile-btn {border-radius: 11px;border: none; cursor:pointer;padding:10px 22px;font-weight:600;font-size:1em;}
+    .profile-save {
+      background: linear-gradient(90deg,#4e76ed 15%, #42cc92 97%);
+      color: #fff; box-shadow:0 1px 7px #4e76ed08;
+    }
+    .profile-save:hover {background:linear-gradient(90deg,#42cc92 15%,#4e76ed 97%);}
+    .profile-cancel {background:#f5f7f9;color:#4e76ed;border:1px solid #daf1eb;}
+    .profile-cancel:hover {background:#edf4fa;color:#223672;}
+    .profile-extra {color:#2d4a82;font-weight:500;margin-top:18px;font-size:.97em;text-align:center;}
+    .profile-extra a {color:#42cc92;text-decoration:underline;font-weight:600;transition:color .13s;}
+    .profile-extra a:hover {color:#4e76ed;}
+    @media(max-width:670px){.navbar{margin:7px 2vw;padding:10px 4vw;}.profile-glass{max-width:97vw;padding:16px 3vw;}}
+    @media(max-width:450px){.profile-glass{padding:7px 1vw;}}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html" class="brand-gradient">
+        <svg width="24" height="24" style="vertical-align:middle;margin-right:6px" fill="none"><circle cx="12" cy="12" r="11" fill="#4e76ed"/><ellipse cx="18" cy="13" rx="8" ry="7" fill="#50c878"/><circle cx="21" cy="7" r="3" fill="#ffb951"/></svg>
+        Cardence
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="settings.html"><span class="nav-icon">&#9881;</span> Settings</a>
+      <a href="profile.html"><span class="nav-icon">&#128100;</span> Profile</a>
+      <a href="insights.html"><span class="nav-icon">&#128200;</span> Insights</a>
+      <a href="#" onclick="logout()"><span class="nav-icon">&#128682;</span> Logout</a>
+    </div>
+  </nav>
+  <div class="page-content">
+    <div class="profile-glass">
+      <div class="profile-brand">
+        <svg width="27" height="25" viewBox="0 0 27 24" fill="none">
+          <ellipse cx="12" cy="12" rx="11" ry="11" fill="#4e76ed"/>
+          <ellipse cx="18" cy="13" rx="8" ry="7" fill="#42cc92"/>
+          <ellipse cx="21" cy="7" rx="3" ry="3" fill="#ffe293"/>
+        </svg>
+        <span class="profile-heading">Cardence Profile</span>
+      </div>
+      <div class="profile-photo-wrap">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Photo" class="profile-photo" id="profilePhoto">
+        <span class="profile-photo-edit" id="editPhoto" title="Change profile photo">&#9998;</span>
+        <input type="file" accept="image/*" style="display:none;" id="photoInput"/>
+      </div>
+      <div class="profile-name-display" id="profileNameDisplay"></div>
+      <form class="profile-form" autocomplete="off">
+        <div>
+          <label class="profile-label" for="name">Name</label>
+          <input id="name" class="profile-field" required>
+        </div>
+        <div>
+          <label class="profile-label" for="email">Email</label>
+          <input id="email" class="profile-field" type="email" required>
+        </div>
+        <div>
+          <label class="profile-label" for="phone">Phone</label>
+          <input id="phone" class="profile-field" type="tel" required>
+        </div>
+        <div>
+          <label class="profile-label" for="bio">Bio</label>
+          <textarea id="bio" class="profile-field-area" maxlength="110"></textarea>
+        </div>
+        <div class="profile-actions">
+          <button type="submit" class="profile-btn profile-save">Save</button>
+          <button type="button" class="profile-btn profile-cancel" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+      <div class="profile-extra">
+        Want to <a href="#" onclick="alert('Change password coming soon!');return false;">change password?</a>
+      </div>
+    </div>
+  </div>
+  <script>
+
+    const user = JSON.parse(localStorage.getItem('cardenceUser') || 'null');
+    if (!user) window.location.href = "login.html";
+    const form = document.querySelector('.profile-form');
+    const profilePhoto = document.getElementById('profilePhoto');
+    let lastSaved = {...user};
+
+
+    window.addEventListener('DOMContentLoaded', function(){
+      form.name.value = user.name || "";
+      form.email.value = user.email || "";
+      form.phone.value = user.phone || "";
+      form.bio.value = user.bio || "";
+      document.getElementById('profileNameDisplay').textContent = user.name || "";
+      profilePhoto.src = user.photo || "https://randomuser.me/api/portraits/men/32.jpg";
+      lastSaved = {...user};
+    });
+
+
+    document.getElementById('editPhoto').onclick = () => document.getElementById('photoInput').click();
+    document.getElementById('photoInput').onchange = function(e) {
+      const f = e.target.files[0];
+      if(f && f.type.match('image.*')) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          profilePhoto.src = ev.target.result;
+          user.photo = ev.target.result;
+          localStorage.setItem('cardenceUser', JSON.stringify(user));
+          let userDB = JSON.parse(localStorage.getItem('cardenceUsers') || '[]');
+          let idx = userDB.findIndex(u => u.email === user.email);
+          if(idx !== -1) {
+            userDB[idx].photo = user.photo;
+            localStorage.setItem('cardenceUsers', JSON.stringify(userDB));
+          }
+        };
+        reader.readAsDataURL(f);
+      }
+    };
+
+  
+    document.getElementById('cancelBtn').onclick = function(){
+      form.name.value = lastSaved.name || "";
+      form.email.value = lastSaved.email || "";
+      form.phone.value = lastSaved.phone || "";
+      form.bio.value = lastSaved.bio || "";
+      document.getElementById('profileNameDisplay').textContent = lastSaved.name || "";
+      profilePhoto.src = lastSaved.photo || "https://randomuser.me/api/portraits/men/32.jpg";
+      Object.assign(user, lastSaved);
+    };
+
+
+    form.onsubmit = function(e){
+      e.preventDefault();
+      user.name = form.name.value;
+      user.email = form.email.value;
+      user.phone = form.phone.value;
+      user.bio = form.bio.value;
+      localStorage.setItem('cardenceUser', JSON.stringify(user));
+      document.getElementById('profileNameDisplay').textContent = user.name || "";
+      let userDB = JSON.parse(localStorage.getItem('cardenceUsers') || '[]');
+      let idx = userDB.findIndex(u => u.email === user.email);
+      if(idx !== -1) {
+        userDB[idx].name = user.name;
+        userDB[idx].phone = user.phone;
+        userDB[idx].bio = user.bio;
+        userDB[idx].photo = user.photo;
+        localStorage.setItem('cardenceUsers', JSON.stringify(userDB));
+      }
+      lastSaved = {...user}; 
+      alert('Profile saved!');
+    };
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('cardenceUser');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

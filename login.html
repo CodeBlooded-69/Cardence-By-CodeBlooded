@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cardence Login/Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body {height:100%;margin:0;padding:0;overflow:hidden;}
+    body {
+      min-height: 100vh; min-width: 100vw;
+      background: linear-gradient(125deg, #3d61ca 0%, #56c996 53%, #ffbe5b 100%);
+      font-family: "Inter", sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .login-panel {
+      position: relative; z-index: 2; width: 340px; max-width: 94vw; margin: 0 auto;
+      background: rgba(255,255,255,0.25);
+      border-radius: 28px; box-shadow: 0 16px 48px #4e76ed44, 0 4px 12px #50c87823;
+      padding: 38px 40px 30px 40px;
+      backdrop-filter: blur(16px) brightness(1.09) saturate(1.14);
+      display: flex; flex-direction: column; align-items: center;
+      animation: loginPop 1s cubic-bezier(.66,-0.16,.44,1.19);
+      transition: box-shadow .3s;
+    }
+    @keyframes loginPop {from {opacity:0;transform:scale(.83) translateY(36px);}to {opacity:1;transform:none;}}
+    .brand-animate { display: flex; align-items: center; gap: 13px; margin-bottom: 10px; filter: drop-shadow(0 2px 18px #3f65e680); cursor: pointer; transition:transform .18s; user-select: none;}
+    .brand-text {
+      background: linear-gradient(90deg, #4e76ed 0%, #50c878 62%, #ffb951 98%);
+      color: transparent; -webkit-background-clip: text; background-clip: text; font-weight: 900;
+      font-size: 2.13em; letter-spacing: 0.3px;
+      text-shadow: 0 2px 8px #14206711, 0 1.5px 12px #50c87819;
+      user-select: none;
+    }
+    .login-tabs {
+      display: flex; gap: 12px; margin: 13px 0 20px 0; width:100%; justify-content: center;
+    }
+    .login-tab-btn {
+      background: none; border: none;
+      font-size: 1.12em; font-weight: 700; color: #314280; padding:6px 13px; border-radius:12px;
+      cursor: pointer; opacity: .64; transition: background .17s, color .15s;
+    }
+    .login-tab-btn.active {
+      opacity:1; color:#fff;
+      background: linear-gradient(90deg, #4e76ed 22%, #50c878 80%);
+    }
+    .login-title { font-size: 1.1em; color: #314280; font-weight: 700; margin-bottom: 18px; letter-spacing: .28px; text-align: center;}
+    .form-card { width: 100%; background: rgba(255,255,255,0.18); border-radius: 18px; box-shadow: 0 4px 16px #4e76ed11; padding: 22px 14px 19px 14px; position: relative;}
+    .login-form { display: flex; flex-direction: column; gap: 18px;}
+    .login-form-row {display: flex; flex-direction: column; gap: 7px; position: relative;}
+    .login-form-row label {font-weight: 600;color: #254998;font-size: 1em;margin-bottom: 1px;letter-spacing: .3px;opacity: .83;}
+    .login-form-row input {
+      border-radius: 12px; border: none; background: rgba(255,255,255,0.87); padding: 12px 46px 12px 15px;
+      font-size: 1.08em; outline: none; box-shadow: 0 2px 12px #4e76ed16; color: #253868;
+      font-weight: 500;
+    }
+    .login-form-row input:focus { box-shadow: 0 5px 18px #4e76ed17; background: #f9fcfe;}
+    .eye-toggle {
+      position: absolute; right: 13px; top: 40px;
+      font-size: 1.22em; color:#728bff; opacity:.68; cursor: pointer; padding:5px; border-radius:7px; user-select:none; background:none; border:none; transition:color .15s;
+    }
+    .eye-toggle:active,.eye-toggle:focus,.eye-toggle:hover { background:#e7faff; color:#4e76ed; opacity:1;}
+    .login-btn-row { display: flex; justify-content:center; margin-top:10px;}
+    .login-btn {background: linear-gradient(93deg,#4e76ed 1%,#50c878 60%, #ffb951 99%);
+      color:#fff;font-size: 1.13em; font-weight:700; border:none; border-radius:16px; padding: 10px 44px; cursor:pointer;
+      letter-spacing:.07em; box-shadow: 0 2px 16px #4e76ed2a;
+      transition:background .21s,box-shadow .13s, transform .11s;}
+    .login-btn:focus, .login-btn:hover { background: linear-gradient(94deg,#ffb951 10%,#4e76ed 88%);
+      color:#233148; box-shadow:0 7px 22px #50c87824; outline:none; transform:scale(1.03) translateY(-1px)
+    }
+    .login-bottom {margin-top:22px;text-align:center;color: #2f477e;font-weight: 500; font-size: .97em;opacity:.75;letter-spacing: .07em;}
+    .login-bottom a { color: #4e76ed; text-decoration:none; font-weight: 600; transition:color .17s;}
+    .login-bottom a:hover { color: #50c878; text-decoration:underline;}
+    .error-message {
+      color: #ff4757; font-size: 0.95em; margin-top: 2px; text-align: center; display: none;
+    }
+    .loading { opacity: 0.7; pointer-events: none; }
+    .success-message {
+      color: #50c878; font-size: 0.95em; margin-top: 2px; text-align: center; display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-panel">
+    <div class="brand-animate">
+      <svg width="35" height="34" fill="none"><ellipse cx="14" cy="16" rx="13.2" ry="13.2" fill="#4e76ed"/><ellipse cx="23" cy="20" rx="8.2" ry="7" fill="#50c878"/><ellipse cx="27.5" cy="11" rx="3.7" ry="3.2" fill="#ffb951"/></svg>
+      <span class="brand-text">Cardence</span>
+    </div>
+    <div class="login-tabs">
+      <button class="login-tab-btn active" id="loginTabBtn" type="button">Login</button>
+      <button class="login-tab-btn" id="registerTabBtn" type="button">Register</button>
+    </div>
+    <div class="login-title" id="loginTitle">Welcome Back! Login to dashboard</div>
+    <div class="form-card">
+
+      <form class="login-form" id="loginForm" autocomplete="off">
+        <div class="login-form-row">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" autocomplete="username" required placeholder="you@email.com">
+        </div>
+        <div class="login-form-row">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" required placeholder="Enter your password">
+          <button type="button" class="eye-toggle" id="togglePassword" tabindex="-1" title="Show/Hide Password">👁️</button>
+        </div>
+        <div class="error-message" id="errorMessage">Invalid credentials. Please try again.</div>
+        <div class="login-btn-row">
+          <button type="submit" class="login-btn" id="loginBtn">Login</button>
+        </div>
+      </form>
+
+      <form class="login-form" id="registerForm" style="display:none;" autocomplete="off">
+        <div class="login-form-row">
+          <label for="regName">Name</label>
+          <input type="text" id="regName" required placeholder="Your Name">
+        </div>
+        <div class="login-form-row">
+          <label for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" required placeholder="your@email.com">
+        </div>
+        <div class="login-form-row">
+          <label for="regPhone">Phone</label>
+          <input type="text" id="regPhone" required placeholder="Your Phone">
+        </div>
+        <div class="login-form-row">
+          <label for="regBio">Bio</label>
+          <input type="text" id="regBio" required placeholder="A short bio about you">
+        </div>
+        <div class="login-form-row">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" required placeholder="Create a password">
+          <button type="button" class="eye-toggle" id="toggleRegPassword" tabindex="-1" title="Show/Hide Password">👁️</button>
+        </div>
+        <div class="login-form-row">
+          <label for="regRepeat">Confirm Password</label>
+          <input type="password" id="regRepeat" required placeholder="Repeat password">
+        </div>
+        <div class="error-message" id="regErrorMessage"></div>
+        <div class="success-message" id="regSuccessMessage"></div>
+        <div class="login-btn-row">
+          <button type="submit" class="login-btn" id="registerBtn">Register</button>
+        </div>
+      </form>
+    </div>
+    <div class="login-bottom" id="forgotText">
+      Forgot password?
+      <a href="#" title="Reset password">Reset Here</a>
+    </div>
+  </div>
+  <script>
+
+    let userDB = JSON.parse(localStorage.getItem('cardenceUsers') || '[]');
+    const validUsers = [
+      { email: "admin@cardence.com", password: "admin123", name: "Admin", phone: "1111111111", bio: "Cardence Admin" },
+      { email: "amit@email.com", password: "password123", name: "Amit", phone: "2222222222", bio: "I am Amit" },
+      { email: "user@cardence.com", password: "user123", name: "User", phone: "3333333333", bio: "Cardence User" }
+    ];
+
+    if (userDB.length === 0) { userDB = validUsers; localStorage.setItem('cardenceUsers', JSON.stringify(userDB)); }
+
+    function switchTab(tab) {
+      if (tab === 'login') {
+        document.getElementById('loginForm').style.display = '';
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginTabBtn').classList.add('active');
+        document.getElementById('registerTabBtn').classList.remove('active');
+        document.getElementById('loginTitle').textContent = "Welcome Back! Login to dashboard";
+        document.getElementById('forgotText').style.display = '';
+      } else {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = '';
+        document.getElementById('loginTabBtn').classList.remove('active');
+        document.getElementById('registerTabBtn').classList.add('active');
+        document.getElementById('loginTitle').textContent = "Create your Cardence account";
+        document.getElementById('forgotText').style.display = 'none';
+      }
+    }
+    document.getElementById('loginTabBtn').onclick = ()=>switchTab('login');
+    document.getElementById('registerTabBtn').onclick = ()=>switchTab('register');
+
+
+    document.getElementById('togglePassword').addEventListener('click', function(e) {
+      e.preventDefault();
+      let pw = document.getElementById('password');
+      this.innerHTML = pw.type === 'password' ? '🙈' : '👁️';
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    });
+
+
+    document.getElementById('toggleRegPassword').addEventListener('click', function(e) {
+      e.preventDefault();
+      let pw = document.getElementById('regPassword');
+      this.innerHTML = pw.type === 'password' ? '🙈' : '👁️';
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    });
+
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const loginBtn = document.getElementById('loginBtn');
+      const errorMessage = document.getElementById('errorMessage');
+      const loginTitle = document.getElementById('loginTitle');
+      errorMessage.style.display = 'none';
+      loginBtn.textContent = 'Authenticating...';
+      loginBtn.classList.add('loading');
+      loginTitle.textContent = 'Verifying credentials...';
+      setTimeout(() => {
+        const user = userDB.find(u => u.email === email && u.password === password);
+        if (user) {
+
+          localStorage.setItem('cardenceUser', JSON.stringify({
+            email: user.email,
+            name: user.name,
+            phone: user.phone || '',
+            bio: user.bio || '',
+            loginTime: new Date().toISOString()
+          }));
+          loginTitle.textContent = 'Login successful! Redirecting...';
+          setTimeout(() => {
+            window.location.href = 'bs/index.html';
+          }, 900);
+        } else {
+          errorMessage.style.display = 'block';
+          loginBtn.textContent = 'Login';
+          loginBtn.classList.remove('loading');
+          loginTitle.textContent = 'Welcome Back! Login to dashboard';
+          document.getElementById('password').value = '';
+        }
+      }, 900);
+    });
+
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const password = document.getElementById('regPassword').value;
+      const repeat = document.getElementById('regRepeat').value;
+      const phone = document.getElementById('regPhone').value.trim();
+      const bio = document.getElementById('regBio').value.trim();
+      const errorMessage = document.getElementById('regErrorMessage');
+      const successMessage = document.getElementById('regSuccessMessage');
+      const registerBtn = document.getElementById('registerBtn');
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+      if (!name || !email || !password || !phone || !bio) {
+        errorMessage.textContent = "All fields are required.";
+        errorMessage.style.display = 'block';
+        return;
+      }
+      if (password.length < 6) {
+        errorMessage.textContent = "Password must be at least 6 characters.";
+        errorMessage.style.display = 'block';
+        return;
+      }
+      if (password !== repeat) {
+        errorMessage.textContent = "Passwords do not match.";
+        errorMessage.style.display = 'block';
+        return;
+      }
+      if (userDB.some(u => u.email === email)) {
+        errorMessage.textContent = "Email is already registered.";
+        errorMessage.style.display = 'block';
+        return;
+      }
+      registerBtn.textContent = "Registering...";
+      registerBtn.classList.add('loading');
+      setTimeout(() => {
+        userDB.push({ name, email, password, phone, bio });
+        localStorage.setItem('cardenceUsers', JSON.stringify(userDB));
+        successMessage.textContent = "Registration successful! Please login.";
+        successMessage.style.display = "block";
+        registerBtn.textContent = "Register";
+        registerBtn.classList.remove('loading');
+        document.getElementById('regName').value = "";
+        document.getElementById('regEmail').value = "";
+        document.getElementById('regPhone').value = "";
+        document.getElementById('regBio').value = "";
+        document.getElementById('regPassword').value = "";
+        document.getElementById('regRepeat').value = "";
+        setTimeout(()=>switchTab('login'),1200);
+      }, 900);
+    });
+  </script>
+</body>
+</html>
